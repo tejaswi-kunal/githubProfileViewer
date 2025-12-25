@@ -6,8 +6,38 @@ function App()
     // we have to return a github profile viewer
     const [profile,setProfile]=useState([]);
     const [total,setTotal]=useState("");
+    const [user,setUser]=useState("");
 
-    // now we have to fetch the users profiles
+    // to fetch a single user profile if its present 
+    async function UserProfile(loginName) 
+    {
+    try 
+    {
+        const response = await fetch(`https://api.github.com/users/${loginName}`);
+        const data = await response.json();
+
+        // if GitHub returns a valid user object
+        if (data && !data.message) 
+        {
+            setProfile([data]);
+        } 
+        // if user not found OR rate limit exceeded
+        else 
+        {
+            alert(data.message || "Something went wrong!");
+            setProfile(null);
+        }
+
+    }   
+    catch (err)     
+    {
+        console.error("Error occurred while fetching profile:", err);
+        alert("Network error! Please check your internet connection.");
+    }
+    }
+
+    
+    // now we have to fetch users profile
     async function ProfileFetcher(total) 
     {
         // lets also decide the index
@@ -27,9 +57,10 @@ function App()
             alert("GitHub rate limit exceeded. Try again in 1 minute.");
         }
         }
-        catch (err) {
-        console.error("Error occurred:", err);
-  }
+        catch (err) 
+        {
+            console.error("Error occurred:", err);
+        }
     }
 
     useEffect(()=>{
@@ -42,10 +73,16 @@ function App()
             <h1 className="heading">Github Profile Viewer</h1>
 
             <div className="search">
+            <div className="search1">
                 <input type="text" placeholder="Enter Number Profiles" value={total} onChange={(e)=>setTotal(e.target.value)}></input>
                 <button onClick={()=>ProfileFetcher(Number(total))}>Search</button>
             </div>
 
+            <div className="search2">
+                <input type="text" placeholder="Enter the Username" value={user} onChange={(e)=>setUser(e.target.value)}></input>
+                <button onClick={()=>UserProfile(user)}>Search</button>
+            </div>
+            </div>
             <div className="card-box">
             {
                 profile.map((value,index)=>{
