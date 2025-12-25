@@ -1,0 +1,17 @@
+{
+  "name": "day06",
+  "version": "1.0.0",
+  "description": "https://api.github.com/users?per_page=${count} https://api.github.com/users/taylorotwell https://api.github.com/users?since=2000&per_page=20",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.3"
+  }
+}
